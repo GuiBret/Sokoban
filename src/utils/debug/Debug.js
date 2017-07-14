@@ -45,7 +45,7 @@ function (
 					UIManager.closeScreen("Login", true);
 				};
 				this.loadMap = function () {
-					MapManager.loadMap("level7");
+					MapManager.loadMap("level1");
 				};
 				this.removeMap = function () {
 					MapManager.removeMap();

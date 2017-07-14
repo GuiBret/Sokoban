@@ -24,9 +24,9 @@ function (
 		];
 
 		// var localhost = 'http://localhost/sokoban/localization/';
-		var localhost = 'https://fbgame.isartdigital.com/sokoban/sokoban26/bin/localization/';
-		var webhost = 'http://sokonyan.delfisakura.com/bin/localization/';
-		this.xliffPath = this.local ? localhost : webhost; // Chemin vers les fichiers de langues xliff
+		var localhost = 'http://localhost/sokoban/';
+		var webhost = 'http://localhost/sokoban/';
+		this.xliffPath = this.local ? localhost + "/bin/localization/" : webhost + "/bin/localization/"; // Chemin vers les fichiers de langues xliff
 
 		/**
 		 * Reglage écran
