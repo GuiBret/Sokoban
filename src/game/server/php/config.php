@@ -5,7 +5,7 @@
 ?>
 
 <?php
-  $source = "mysql:host=localhost;dbname=sokoban26";
+  $source = "mysql:host=localhost;dbname=sokoban";
   $user = "sokoban26";
   $motDePasse = "sokoban262015";
 ?>

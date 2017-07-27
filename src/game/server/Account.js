@@ -47,7 +47,14 @@ function (
 			}
 			
 			data = data.replace(/ /g,"");
-			data = data.replace(/\n/g,"");
+			data = data.replace(/\r\n/g,"");
+            
+            console.log(data === "connected");
+            console.log("connected".length);
+            console.log(data.localeCompare("connected"));
+            console.log(encodeURI(data));
+            console.log(typeof(data));
+            console.log(screenList["connected"]);
 
 			this.UIManager.addScreen(screenList[data], true);
 			this.refreshProgress();
