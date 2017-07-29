@@ -148,7 +148,7 @@ function (
 				//	alert("Bravo, tu as fini le jeu");
 					
 				} else {
-					this.removeMap('level' + (this.levelNum + 1));
+					this.removeMap('level' + (<this.levelNum + 1));
 				}
 			}
 		}
@@ -162,6 +162,16 @@ function (
 		this.resetActionHistory();
 		this.currentMap = [];
 		this.actionCount = 0; // Nombre d'action effectué par le joueur (deplacement, undo, redo)
+        var start;
+		start = window.performance.now();
+		this.levelNum = parseInt(name.substr(name.length - 2, 2));
+		console.log(window.performance.now() - start);
+
+		start = window.performance.now();
+		var regex = /level(\d+)/;
+		this.levelNum = parseInt(/level(\d+)/.exec(name)[1]);
+		console.log(window.performance.now() - start);
+        
 		this.levelNum = parseInt(name.substr(name.length - 2, 2));
 		if (isNaN(this.levelNum)) this.levelNum = parseInt(name.substr(name.length - 1, 1)); // To do, cleaner ça, hack fait 1 j avant le rendu
 		this.levelStartDate = Date.now();
