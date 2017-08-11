@@ -184,7 +184,7 @@ function (
 						UIManager.closeScreen("Menu", true);
 						UIManager.closeScreen("LevelSelect", false);
 						UIManager.addScreen("GameStage", true);
-						MapManager.loadMap("level" + world  + "_"+ id);
+						MapManager.getMap("level" + world  + "-"+ id);
 					}
 					SoundManager.play(mouseUpSound);
 				}

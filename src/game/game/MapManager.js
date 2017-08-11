@@ -12,25 +12,8 @@ define([
 	"src/game/game/component/Undoredo",
 	"src/game/game/box/Box",
 	"src/game/game/box/BoxManager",
-	"src/utils/localization/txt",
-	"assets/map/level1-1",
-	"assets/map/level1-2",
-	"assets/map/level1-3",
-	"assets/map/level1-4",
-	"assets/map/level1-5",
-	"assets/map/level1-6",
-	"assets/map/level1-7",
-	"assets/map/level1-8",
-	"assets/map/level1-9",
-	"assets/map/level1-10",
-	"assets/map/level1-11",
-	"assets/map/level1-12",
-	"assets/map/level1-13",
-	"assets/map/level1-14",
-	"assets/map/level1-15",
-    "assets/map/level2-1",
-    "assets/map/level2-2",
-    "assets/map/level2-3"
+	"src/utils/localization/txt"
+
 ],
 function (
 	$,
@@ -43,25 +26,7 @@ function (
 	Undoredo,
 	Box,
 	BoxManager,
-	txt,
-	level1_1,
-	level1_2,
-	level1_3,
-	level1_4,
-	level1_5,
-	level1_6,
-	level1_7,
-	level1_8,
-	level1_9,
-	level1_10,
-	level1_11,
-	level1_12,
-	level1_13,
-	level1_14,
-	level1_15,
-    level2_1,
-    level2_2,
-    level2_3
+	txt
 ) {
 	var MapManager = function () {
 		this.currentMap = [];
@@ -167,22 +132,20 @@ function (
 	/**
 	 * Charge une map et l'affiche sur le jeu
 	 */
-	MapManager.prototype.loadMap = function (name) {
+	MapManager.prototype.loadMap = function () {
         'use strict';
         var start = window.performance.now();
+        console.log("Meug");
 		this.resetActionHistory();
 		this.currentMap = [];
-        console.log(name);
-        this.currentWorld = /level(\d)_\w+/.exec(name)[1];
+
+        
 		this.actionCount = 0; // Nombre d'action effectué par le joueur (deplacement, undo, redo)
 
 
-		this.levelNum = parseInt(/level\d_(\d+)/.exec(name)[1]);
-        console.log(this.levelNum);
+
 
 		this.levelStartDate = Date.now();
-        console.log(this);
-        var $this = this;
         setInterval(this.updateTime.bind(this), 1000);
 		
 		this.musicList = [
@@ -210,7 +173,6 @@ function (
 		musicToPlay ? SoundManager.play(musicToPlay, true) : null;
         
 		var imageName = "",
-            map = eval(name),
             cellName,
             i,
             mouseUpEvent = function (event) {
@@ -228,35 +190,34 @@ function (
 				
 			};
         
-        console.log(map);
-		Config.mapSizeX = Math.sqrt(map.layers[0].data.length);
-		Config.mapSizeY = Math.sqrt(map.layers[0].data.length);
+		Config.mapSizeX = Math.sqrt(this.map.layers[0].data.length);
+		Config.mapSizeY = Math.sqrt(this.map.layers[0].data.length);
 
 		$("#gameContainer").append("<div id='mapContainer'></div>")
 
-		this.levelPar = map.properties.par;
+		this.levelPar = this.map.properties.par;
 		$("#hudParNumberText").text(this.levelPar);
-		this.Player.eatPower = parseInt(map.properties.eatPower) || 0;
+		this.Player.eatPower = parseInt(this.map.properties.eatPower) || 0;
 		
         
-		for (var i = 0; i < map.layers[0].data.length; i++) {
+		for (var i = 0; i < this.map.layers[0].data.length; i++) {
 
-			if (map.layers[0].data[i] >= this.cell.floorRed ||
-				map.layers[0].data[i] <= this.cell.floorPurple) {
-				map.layers[0].data[i] == this.cell.floor;
+			if (this.map.layers[0].data[i] >= this.cell.floorRed ||
+				this.map.layers[0].data[i] <= this.cell.floorPurple) {
+				this.map.layers[0].data[i] == this.cell.floor;
 			}
 
-			this.currentMap.push(map.layers[0].data[i]);
+			this.currentMap.push(this.map.layers[0].data[i]);
 
 			for (cellName in this.cell){
-				if (this.cell[cellName] == map.layers[0].data[i]) {
+				if (this.cell[cellName] == this.map.layers[0].data[i]) {
 					imageName = cellName;
 				}
 			}
 
 			var floorImageName = this.floorColor[Math.floor(i / Config.mapSizeY) % this.floorColor.length];
 
-			switch (map.layers[0].data[i]) {
+			switch (this.map.layers[0].data[i]) {
 				case this.cell.floorRed:
 				case this.cell.floorOrange:
 				case this.cell.floorYellow:
@@ -282,8 +243,8 @@ function (
 					break;
 			}
 			
-			if (map.layers[0].data[i] == this.cell.playerOnGoal ||
-				map.layers[0].data[i] == this.cell.player) {
+			if (this.map.layers[0].data[i] == this.cell.playerOnGoal ||
+				this.map.layers[0].data[i] == this.cell.player) {
 				$("#mapContainer").append("<div id='player'></div>")
 					$("#player").css("background-image", "url(" + SpriteManager.get("player").src + ")")
 								.css("width", 141 * Math.max(Config.mapWidth, Config.mapHeight) / 110)
@@ -393,6 +354,26 @@ function (
     MapManager.prototype.updateTime = function() {
         $("#hudTimeText").text(Math.floor((Date.now() - this.levelStartDate) / 1000) + " s");
         
+    }
+    
+    MapManager.prototype.getMap = function(mapName) {
+        console.log(mapName);
+        this.currentWorld = /level(\d)-\w+/.exec(mapName)[1];
+        
+        this.levelNum = parseInt(/level\d-(\d+)/.exec(mapName)[1]);
+        
+        console.log(mapName);
+        var self = this;
+        console.log("Meuh");
+        $.ajax({
+            url:"assets/map/"+ mapName +".json",
+            success : function(data, $this) {
+                console.log($this);
+                console.log(this.data);
+                this.map = data;
+                this.loadMap();
+            }.bind(this)
+        });
     }
 	
 

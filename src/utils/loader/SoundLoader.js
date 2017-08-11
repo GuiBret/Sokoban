@@ -65,6 +65,12 @@ function (
 				volume: 50,
 				type: "music"
 			},
+            {
+                name:"nyan_metal",
+                path: this.baseFolder + "music/nyan_metal.mp3",
+                volume:100,
+                type:"music"
+            },
 			{
 				name: "buttonHover",
 				path: this.baseFolder + "sfx/buttonHover.wav",
@@ -95,12 +101,7 @@ function (
 				volume: 100,
 				type: "sfx"
 			},
-            {
-                name:"nyan_metal",
-                path: this.baseFolder + "music/nyan_metal.mp3",
-                volume:100,
-                type:"music"
-            }
+            
 		];
 
 		/**
