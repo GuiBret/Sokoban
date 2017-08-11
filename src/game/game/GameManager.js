@@ -69,7 +69,9 @@ function (
 	 * Execute toutes les updates des managers
 	 */
 	function update () {
-        LoaderManager.update();
+        if (UIManager.currentScreen.indexOf("LoadScreen") != -1) {
+            LoaderManager.update();
+        }
 		GamePad.update();
 		AnimationManager.update();
 		Player.update();
