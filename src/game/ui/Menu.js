@@ -32,8 +32,8 @@ function (
 		$("#Menu").append("<div id='menuInfo' class='menuInfo'>" + txt.get("LABEL_MENU_INFOACCOUNT") + Account.name + "</div>");
 		$("#menuInfo").hide();
 		
-		var buttonList = ["LevelSelectBtn", "HighScoreBtn", "OptionsBtn", "HelpBtn", "AboutBtn"];
-		var buttonNameList = ["LABEL_MENU_PLAYBTN", "LABEL_MENU_HIGHSCOREBTN", "LABEL_MENU_OPTIONSBTN", "LABEL_MENU_HELPBTN", "LABEL_MENU_ABOUTBTN"];
+		var buttonList = ["WorldSelectBtn", "HighScoreBtn", "OptionsBtn", "HelpBtn", "AboutBtn"];
+		var buttonNameList = ["LABEL_MENU_WORLDSELECTBTN", "LABEL_MENU_HIGHSCOREBTN", "LABEL_MENU_OPTIONSBTN", "LABEL_MENU_HELPBTN", "LABEL_MENU_ABOUTBTN"];
 
 		setTimeout(function () {
 			$("#menuInfo").show("highlight");

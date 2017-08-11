@@ -13,21 +13,24 @@ define([
 	"src/game/game/box/Box",
 	"src/game/game/box/BoxManager",
 	"src/utils/localization/txt",
-	"assets/map/level1",
-	"assets/map/level2",
-	"assets/map/level3",
-	"assets/map/level4",
-	"assets/map/level5",
-	"assets/map/level6",
-	"assets/map/level7",
-	"assets/map/level8",
-	"assets/map/level9",
-	"assets/map/level10",
-	"assets/map/level11",
-	"assets/map/level12",
-	"assets/map/level13",
-	"assets/map/level14",
-	"assets/map/level15"
+	"assets/map/level1-1",
+	"assets/map/level1-2",
+	"assets/map/level1-3",
+	"assets/map/level1-4",
+	"assets/map/level1-5",
+	"assets/map/level1-6",
+	"assets/map/level1-7",
+	"assets/map/level1-8",
+	"assets/map/level1-9",
+	"assets/map/level1-10",
+	"assets/map/level1-11",
+	"assets/map/level1-12",
+	"assets/map/level1-13",
+	"assets/map/level1-14",
+	"assets/map/level1-15",
+    "assets/map/level2-1",
+    "assets/map/level2-2",
+    "assets/map/level2-3"
 ],
 function (
 	$,
@@ -41,21 +44,24 @@ function (
 	Box,
 	BoxManager,
 	txt,
-	level1,
-	level2,
-	level3,
-	level4,
-	level5,
-	level6,
-	level7,
-	level8,
-	level9,
-	level10,
-	level11,
-	level12,
-	level13,
-	level14,
-	level15
+	level1_1,
+	level1_2,
+	level1_3,
+	level1_4,
+	level1_5,
+	level1_6,
+	level1_7,
+	level1_8,
+	level1_9,
+	level1_10,
+	level1_11,
+	level1_12,
+	level1_13,
+	level1_14,
+	level1_15,
+    level2_1,
+    level2_2,
+    level2_3
 ) {
 	var MapManager = function () {
 		this.currentMap = [];
@@ -106,13 +112,16 @@ function (
 
 
 	MapManager.prototype.init = function (Player) {
+        "use strict";
 		this.Player = Player;
 		Undoredo.add(MapManager);
 	}
 
 
 	MapManager.prototype.update = function () {
-		$("#hudTimeText").text(Math.floor((Date.now() - this.levelStartDate) / 1000) + " s");
+        "use strict";
+		
+        
 		for (var i = 0; i < 3; i++) {
 			if (this.Player.eatPower > i) {
 				$("#specialLogo" + i).show();
@@ -148,7 +157,7 @@ function (
 				//	alert("Bravo, tu as fini le jeu");
 					
 				} else {
-					this.removeMap('level' + (<this.levelNum + 1));
+					this.removeMap('level' +this.currentWorld + "_" + (this.levelNum + 1));
 				}
 			}
 		}
@@ -159,22 +168,22 @@ function (
 	 * Charge une map et l'affiche sur le jeu
 	 */
 	MapManager.prototype.loadMap = function (name) {
+        'use strict';
+        var start = window.performance.now();
 		this.resetActionHistory();
 		this.currentMap = [];
+        console.log(name);
+        this.currentWorld = /level(\d)_\w+/.exec(name)[1];
 		this.actionCount = 0; // Nombre d'action effectué par le joueur (deplacement, undo, redo)
-        var start;
-		start = window.performance.now();
-		this.levelNum = parseInt(name.substr(name.length - 2, 2));
-		console.log(window.performance.now() - start);
 
-		start = window.performance.now();
-		var regex = /level(\d+)/;
-		this.levelNum = parseInt(/level(\d+)/.exec(name)[1]);
-		console.log(window.performance.now() - start);
-        
-		this.levelNum = parseInt(name.substr(name.length - 2, 2));
-		if (isNaN(this.levelNum)) this.levelNum = parseInt(name.substr(name.length - 1, 1)); // To do, cleaner ça, hack fait 1 j avant le rendu
+
+		this.levelNum = parseInt(/level\d_(\d+)/.exec(name)[1]);
+        console.log(this.levelNum);
+
 		this.levelStartDate = Date.now();
+        console.log(this);
+        var $this = this;
+        setInterval(this.updateTime.bind(this), 1000);
 		
 		this.musicList = [
 			"",
@@ -199,9 +208,27 @@ function (
 
 		var musicToPlay = this.musicList[this.levelNum];
 		musicToPlay ? SoundManager.play(musicToPlay, true) : null;
-
-		var imageName = "";
-		var map = eval(name);
+        
+		var imageName = "",
+            map = eval(name),
+            cellName,
+            i,
+            mouseUpEvent = function (event) {
+                console.log("Coucou");
+				var clickX = event.data.i % Config.mapSizeX;
+				var clickY = Math.floor(event.data.i / Config.mapSizeY);
+				var nextDir = event.data.Player.XYToDir(clickX, clickY);
+				var moved = false;
+				if (nextDir != false) {
+					moved = event.data.Player.move(nextDir);
+				} else {
+					moved = event.data.Player.move(clickX, clickY);
+				}
+				if (moved) event.data.MapManager.actionIncrement();
+				
+			};
+        
+        console.log(map);
 		Config.mapSizeX = Math.sqrt(map.layers[0].data.length);
 		Config.mapSizeY = Math.sqrt(map.layers[0].data.length);
 
@@ -209,8 +236,9 @@ function (
 
 		this.levelPar = map.properties.par;
 		$("#hudParNumberText").text(this.levelPar);
-		this.Player.eatPower = map.properties.eatPower || 0;
+		this.Player.eatPower = parseInt(map.properties.eatPower) || 0;
 		
+        
 		for (var i = 0; i < map.layers[0].data.length; i++) {
 
 			if (map.layers[0].data[i] >= this.cell.floorRed ||
@@ -269,24 +297,10 @@ function (
 						  .css("width", Config.mapWidth)
 						  .css("height", Config.mapHeight)
 						  .data("floorColor", floorImageName);
+            
+            
 
-
-			var mouseUpEvent = (function (MapManager, i, Player) {
-				return function () {
-					var clickX = i % Config.mapSizeX;
-					var clickY = Math.floor(i / Config.mapSizeY);
-					var nextDir = Player.XYToDir(clickX, clickY);
-					var moved = false;
-					if (nextDir != false) {
-						moved = Player.move(nextDir);
-					} else {
-						moved = Player.move(clickX, clickY);
-					}
-					if (moved) MapManager.actionIncrement();
-				}
-			})(this, i, this.Player);
-
-			$('#tile' + i).mouseup(mouseUpEvent);
+			$('#tile' + i).mouseup({MapManager:this, i:i, Player:this.Player}, mouseUpEvent);
 
 			$('#tile' + i).hide();
 			setTimeout((function (id) {
@@ -295,6 +309,11 @@ function (
 				};
 			})(i), Config.fadeInMin + Math.random() * (Config.fadeInMax - Config.fadeInMin));
 		}
+        
+        
+        $("#hudActionNumberText").text(0); // Reset du nombre d'actions
+        
+        console.log(window.performance.now() - start);
 	}
 
 
@@ -302,6 +321,7 @@ function (
 	 * Incremente le compteur d'action de player
 	 */
 	MapManager.prototype.actionIncrement = function () {
+        "use strict";
 		this.actionCount++;
 		$("#hudActionNumberText").text(this.actionCount);
 	}
@@ -311,6 +331,7 @@ function (
 	 * Incremente le compteur d'action de player
 	 */
 	MapManager.prototype.actionDecrement = function () {
+        "use strict";
 		this.actionCount--;
 		$("#hudActionNumberText").text(this.actionCount);
 	}
@@ -321,8 +342,9 @@ function (
 	 * @mapName String - Nom de la map à charger après le remove
 	 */
 	MapManager.prototype.removeMap = function (mapName) {
+        "use strict";
 		if (typeof mapName == "undefined") mapName = false;
-		$("#hudActionNumberText").text(0); // Reset du nombre d'actions
+		
 
 		var mapLength = this.currentMap.length;
 		this.currentMap = [];
@@ -362,12 +384,19 @@ function (
 
 
 	/**
-	 * Retourne l'id de la case ce trouvant à la position x et y
+	 * Retourne l'id de la case se trouvant à la position x et y
 	 */
 	MapManager.prototype.getCellId = function (x, y) {
 		return (y % Config.mapSizeX) * Config.mapSizeX + x;
 	}
+    
+    MapManager.prototype.updateTime = function() {
+        $("#hudTimeText").text(Math.floor((Date.now() - this.levelStartDate) / 1000) + " s");
+        
+    }
 	
 
 	return new MapManager();
+
+    
 });

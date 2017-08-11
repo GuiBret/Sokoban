@@ -94,7 +94,13 @@ function (
 				path: this.baseFolder + "sfx/playerMove.mp3",
 				volume: 100,
 				type: "sfx"
-			}
+			},
+            {
+                name:"nyan_metal",
+                path: this.baseFolder + "music/nyan_metal.mp3",
+                volume:100,
+                type:"music"
+            }
 		];
 
 		/**

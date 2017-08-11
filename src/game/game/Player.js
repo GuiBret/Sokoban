@@ -261,6 +261,8 @@ function (
 						param: dir
 					});
 				}
+                
+                MapManager.update();
 				return true;
 			}
 			return false;

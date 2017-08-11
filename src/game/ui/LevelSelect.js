@@ -29,16 +29,13 @@ function (
 	/**
 	 * Affiche le contenu dans popUp
 	 */
-	LevelSelect.prototype.init = function (UIManager) {
+	LevelSelect.prototype.init = function (UIManager, world) {
 		$("#screenContainer").append("<div id='LevelSelect' class='popUp'></div>");
+        
 		$("#blackScreen").show();
 
-		$("#screenContainer #LevelSelect").css("background-image", "url(" + SpriteManager.get("popUp").src + ")")
-									  .css("width", 786.8)
-									  .css("height", 444,5)
-									  .css( "left", "170" )
-									  .css( "top", "160" );
-
+		$("#screenContainer #LevelSelect").css("background-image", "url(" + SpriteManager.get("popUp").src + ")");
+        
 		$("#LevelSelect").append("<div class='buttonClose'>" + txt.get("LABEL_POPUP_CLOSEBTN") + "</div>");
 		$("#LevelSelect .buttonClose").css("background-image", "url(" + SpriteManager.get("buttonLoginStatic").src + ")");
 
@@ -48,7 +45,6 @@ function (
 		// Hover
 		$( "#LevelSelect .buttonClose").hover(function() {
 			$( this ).css("background-image", "url(" + SpriteManager.get("buttonLoginSurvol").src + ")");
-			$("#LevelSelect .buttonClose").css("background-repeat", "no-repeat");
 			SoundManager.play("buttonHover");
 		}, function() {
 			$( this ).css("background-image", "url(" + SpriteManager.get("buttonLoginStatic").src + ")");
@@ -61,8 +57,7 @@ function (
 		});
 
 		$("#LevelSelect .buttonClose").mouseup(function() {
-			$("#LevelSelect .buttonClose").css("background-image", "url(" + SpriteManager.get("buttonLoginStatic").src + ")")
-										  .css("padding-top", 8);
+			$("#LevelSelect .buttonClose").css("background-image", "url(" + SpriteManager.get("buttonLoginStatic").src + ")");
 			$("#blackScreen").hide();
 			SoundManager.play("meow14");
 			UIManager.closeScreen("LevelSelect", true);
@@ -73,18 +68,26 @@ function (
 		/**
 		 * Bouton de selection de niveau
 		 */
-		var isUnlocked = false;
-		var className = false;
-		var starName = null;
-		var btnStatic = null;
-		var btnsurvol = null;
-		var btnPress = null;
-		var mouseUpSound = null;
-		var score = null;
-		var starEffectMin = 1000;
-		var starEffectMax = 10000;
-
-		for (var i = 1; i < 16; i++) {
+		var isUnlocked = false,
+            className = false,
+            starName = null,
+            btnStatic = null,
+            btnsurvol = null,
+            btnPress = null,
+            mouseUpSound = null,
+            score = null,
+            starEffectMin = 1000,
+            starEffectMax = 10000,
+            limit;
+        
+        console.log(world);
+        if(world == 1) {
+            limit = 16;
+        } else {
+            limit = 4
+        }
+        console.log(limit);
+		for (var i = 1; i < limit; i++) {
 			isUnlocked = Account.progress.level[i - 1].unlocked;
 			if (isUnlocked) {
 				className = "btnLevel";
@@ -181,12 +184,13 @@ function (
 						UIManager.closeScreen("Menu", true);
 						UIManager.closeScreen("LevelSelect", false);
 						UIManager.addScreen("GameStage", true);
-						MapManager.loadMap("level" + id);
+						MapManager.loadMap("level" + world  + "_"+ id);
 					}
 					SoundManager.play(mouseUpSound);
 				}
 			})(i, btnStatic, mouseUpSound));
 		};
+        
 
 	}
 

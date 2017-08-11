@@ -35,8 +35,8 @@ body {
     position: absolute;
     font-family: Fipps, sans-serif;
     font-size: 1.2em;
-    width: 1124px;
-    height: 635px;
+    /*width: 1124px;
+    height: 635px; */
     z-index: 3;
     background-repeat: no-repeat;
     background-size: 100% 100%;

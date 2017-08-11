@@ -72,7 +72,6 @@ function (
 		GamePad.update();
 		AnimationManager.update();
 		LoaderManager.update();
-		MapManager.update();
 		Player.update();
 		BoxManager.update();
 	}

@@ -15,7 +15,8 @@ define([
 	"src/game/ui/AccountCreated",
 	"src/game/ui/NeedPasswordAndLogin",
 	"src/game/ui/HighScore",
-	"src/game/ui/Help"
+	"src/game/ui/Help",
+    "src/game/ui/WorldSelect"
 ],
 function (
 	Config,
@@ -31,7 +32,8 @@ function (
 	AccountCreated,
 	NeedPasswordAndLogin,
 	HighScore,
-	Help
+	Help,
+     WorldSelect
 ) {
 	var UIManager = function () {
 		
@@ -47,14 +49,29 @@ function (
 	/**
 	 * Ajoute un nouveau contenu d'écran dans le gameContainer
 	 */
-	UIManager.prototype.addScreen = function (name, fade) {
+	UIManager.prototype.addScreen = function (name, fade, world) {
+        $("head").append(`<link rel="stylesheet" type="text/css" href="css/${name}.css" />`);
+        
 		if (typeof fade == "undefined") fade = false;
-		eval(name).init(this);
-		this.currentScreen.push(name);
+        
+        var $this = this;
+        setTimeout(function() {
+            if(name === "LevelSelect") {
+                eval(name).init($this, world);    
+            } else {
+                eval(name).init($this);
+            }
+            
+            $this.currentScreen.push(name);
+        
+        
 		if (fade) {
 			$("#" + name).hide();
 			$("#" + name).fadeIn(Config.changeScreenFadeDelay);
 		}
+            
+        }, 10, $this, name);
+		
 	}
 
 
@@ -63,19 +80,24 @@ function (
 	 */
 	UIManager.prototype.closeScreen = function (name, fade) {
 		if (typeof fade == "undefined") fade = false;
+        
 
 		if (typeof name == "undefined") {
 			$("#screenContainer").html("");
 			this.currentScreen = [];
 		} else {
 			this.currentScreen.splice(this.currentScreen.indexOf(name), 1);
+            
 			if (fade) {
 				$("#" + name).fadeOut(Config.changeScreenFadeDelay, function () {
+                    $(`link[rel=stylesheet][href="css/${name}.css"]`).remove();
 					$("#" + name).remove();
 				})
 			} else {
 				$("#" + name).remove();
 			}
+            
+            
 		}
 	}
 

@@ -26,6 +26,10 @@
 			<source>*If you don't have an account, it will be automatically created.</source>
 			<target>*Si vous n'avez pas encore de compte, il sera crée automatiquement.</target>
 		</trans-unit>
+        <trans-unit id="LABEL_MENU_WORLDSELECTBTN">
+            <source>Select a world</source>
+            <target>Sélection de monde</target>
+        </trans-unit>
 		<trans-unit id="LABEL_MENU_PLAYBTN">
 			<source>Play</source>
 			<target>Jouer</target>
@@ -97,6 +101,10 @@
 		<trans-unit id="LABEL_POPUP_LEVELSELECT_DESCTITLE">
 			<source>Choose your level</source>
 			<target>Choisissez un niveau</target>
+		</trans-unit>
+        <trans-unit id="LABEL_POPUP_WORLDSELECT_DESCTITLE">
+			<source>Choose your world</source>
+			<target>Choisissez un monde</target>
 		</trans-unit>
 		<trans-unit id="LABEL_POPUP_WRONGPASSWORD_TITLE">
 			<source>Error</source>

@@ -1,0 +1,78 @@
+/**
+ * Css de la page popUp "Jouer" : WorldSelect
+ */
+.buttonClose {
+    position: absolute;
+    text-align: center;
+    font-family:Fipps, sans-serif;
+    font-size: 0.9em;
+    left: 280px;
+    top: 330px;
+    height: 74px;
+    width: 206px;
+    cursor:pointer;
+    padding-top: 5px;
+}
+
+#descTitleWorldSelect {
+    position: absolute;
+    font-size: 1em;
+    top: 25px;
+    left: 215px;
+    text-shadow: 1px 1px 1px #bbb;
+}
+
+.btn {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 30%;
+    height: 55%;
+}
+
+.btn span {
+    position: relative;
+    text-align: center;
+    left: 45%;
+    top: 30%;
+}
+
+.btnLevel {
+    cursor: pointer;
+}
+
+.btnLock {
+    cursor: not-allowed;
+}
+
+.star {
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+}
+
+#screenContainer #worldSelect {
+    width:786.8px;
+    height:444.5px;
+    left:170px;
+    top:160px;
+}
+
+#WorldSelect .buttonClose {
+    padding-top:8px;
+}
+
+#WorldSelect .buttonClose:hover {
+    background-repeat : no-repeat;
+}
+
+#WorldList {
+    position: absolute;
+    display: flex;
+    height: 60%;
+    top: 20%;
+    bottom:20%;
+    width: 100%;
+    justify-content: space-around;
+    
+}

@@ -18,6 +18,8 @@ function (
 	Move
 ) {
 	var Box = function (x, y, isOnGoal, MapManager, Player) {
+        var start;
+        start = window.performance.now();
 		Move.addPositionUpdate(Box, Config, MapManager);
 		this.Player = Player;
 		this.MapManager = MapManager;
@@ -35,7 +37,8 @@ function (
 		}
 
 		this.position = new Vector2(x, y);
-		this.id = Math.floor(Math.random() * 10000000);
+		//this.id = Math.floor(Math.random() * 10000000);
+        this.id = BoxManager.list.length - 1;
 		this.name = "box" + this.id;
 		this.translateOffset = new Vector2(0, 0);
 		this.xOffset = 0;
@@ -45,6 +48,8 @@ function (
 		if (isOnGoal) this.idleSprite = SpriteManager.get("boxOnGoal").src;;
 
 		this.appendBox();
+        
+        console.log(window.performance.now() - start);
 	}
 
 

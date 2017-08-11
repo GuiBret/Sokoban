@@ -19,6 +19,9 @@ function (
 
 
 	GameStage.prototype.init = function (UIManager) {
+        "use strict";
+        
+        var start = window.performance.now();
 		$("#screenContainer").append("<div id='GameStage'></div>");
 		$("#screenContainer").css("position","absolute");
 
@@ -70,6 +73,8 @@ function (
 		$("#GameStage").append("<div id='hudParContainer'></div>")
 		$("#hudActionContainer").append("<div id='hudParTitleText'>" + txt.get("LABEL_HUD_PAR_TITLE") + "</div>");
 		$("#hudActionContainer").append("<div id='hudParNumberText'>" + MapManager.levelPar + "</div>");
+        
+        
 
 
 
@@ -148,6 +153,9 @@ function (
 				}
 			})(i));
 		};
+        
+        MapManager.update(); // Appelé pour afficher le bon nombre d'eatPowers
+        console.log(window.performance.now() - start);
 	}
 
 

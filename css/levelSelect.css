@@ -50,3 +50,18 @@
     width: 16px;
     height: 16px;
 }
+
+#screenContainer #levelSelect {
+    width:786.8px;
+    height:444.5px;
+    left:170px;
+    top:160px;
+}
+
+#LevelSelect .buttonClose {
+    padding-top:8px;
+}
+
+#LevelSelect .buttonClose:hover {
+    background-repeat : no-repeat;
+}

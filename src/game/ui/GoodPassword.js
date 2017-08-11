@@ -22,6 +22,7 @@ function (
 	 * Affiche le contenu dans gameContainer
 	 */
 	GoodPassword.prototype.init = function (UIManager) {
+        var start = window.performance.now();
 		$("#screenContainer").append("<div id='GoodPassword' class='popUp'></div>");
 		$("#blackScreen").show();
 
