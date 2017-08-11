@@ -69,9 +69,9 @@ function (
 	 * Execute toutes les updates des managers
 	 */
 	function update () {
+        LoaderManager.update();
 		GamePad.update();
 		AnimationManager.update();
-		LoaderManager.update();
 		Player.update();
 		BoxManager.update();
 	}

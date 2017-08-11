@@ -22,16 +22,15 @@ function (
 	 * Met à jour la barre de chargement
 	 */
 	LoaderManager.prototype.update = function () {
-		if (UIManager.currentScreen.indexOf("LoadScreen") != -1) {
-			$('.loadingBar').css("width", this.getProgress() * 900);
-			$('.loadingCat').css("left", 45 + this.getProgress() * (945 - 45));
-			if (this.getProgress() == 1) {
-				UIManager.closeScreen("LoadScreen", true);
-				UIManager.addScreen("Login", true);
-				Debug.success("Chargement des assets terminé.")
-			}
+        $('.loadingBar').css("width", this.getProgress() * 900);
+		$('.loadingCat').css("left", 45 + this.getProgress() * (945 - 45));
+		if (this.getProgress() == 1) {
+            UIManager.closeScreen("LoadScreen", true);
+            UIManager.addScreen("Login", true);
+            Debug.success("Chargement des assets terminé.");
 		}
-	}
+    
+    }
 
 
 	/*

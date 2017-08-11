@@ -105,7 +105,6 @@ function (
 			// Hover
 			$("#menuContainer #" + buttonList[i]).hover((function(id) {
 				return function () {
-					console.log(buttonList[id] + "Hover");
 					$( this ).css("background-image", "url(" + SpriteManager.get(buttonList[id] + "Hover").src + ")");
 					SoundManager.play("buttonHover");
 				}
