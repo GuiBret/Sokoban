@@ -82,11 +82,9 @@ function (
 
 	MapManager.prototype.init = function (Player) {
         "use strict";
-        console.log("TROLL");
-        console.log(Enemy);
+        
 		this.Player = Player;
         this.Enemy = Enemy;
-		Undoredo.add(MapManager);
         
 	}
 
@@ -121,7 +119,6 @@ function (
 					var won = false;
 				}
 			};
-            console.log('Fini ou pas')
 			if (won) {
 				var score;
 				score = this.actionCount > this.levelPar ? 1 : 2;
@@ -144,9 +141,6 @@ function (
 	 */
 	MapManager.prototype.loadMap = function () {
         'use strict';
-    
-        console.log(this.data);
-        var start = window.performance.now();
 
 		this.resetActionHistory();
 		this.currentMap = [];
@@ -189,12 +183,10 @@ function (
             cellName,
             i,
             mouseUpEvent = function (event) {
-                console.log("Coucou");
 				var clickX = event.data.i % Config.mapSizeX;
 				var clickY = Math.floor(event.data.i / Config.mapSizeY);
 				var nextDir = event.data.Player.XYToDir(clickX, clickY);
 				var moved = false;
-                console.log(nextDir);
 				if (nextDir != false) {
                     
 					moved = event.data.Player.move(nextDir);
@@ -297,12 +289,8 @@ function (
 			})(i), Config.fadeInMin + Math.random() * (Config.fadeInMax - Config.fadeInMin));
 		}
         
-        
-        
-        
         $("#hudActionNumberText").text(0); // Reset du nombre d'actions
-        console.log(window.performance.now() - start);
-        console.log(this.map);
+
         if(this.currentWorld == 2) {
             Enemy.pushData(this.map.enemies);    
         }
@@ -394,9 +382,6 @@ function (
 
         this.currentWorld = /level(\d)-\w+/.exec(mapName)[1];
         this.levelNum = parseInt(/level\d-(\d+)/.exec(mapName)[1]);
-        
-        var self = this;
-
         
         $.get("assets/map/" +mapName +".json?v=1.1"
               , function(data) {

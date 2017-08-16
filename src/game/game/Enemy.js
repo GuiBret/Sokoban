@@ -29,7 +29,6 @@ function (
     Enemy.prototype.init = function(MapManager) {
         Move.addPositionUpdate(Enemy, Config, MapManager);
         this.MapManager = MapManager;
-        console.log(this.MapManager);
         
         this.name = "enemy";
         this.MapManager = MapManager;
@@ -48,21 +47,15 @@ function (
         
         this.translateOffset = new Vector2(0, 0);
 		this.idleSprite = SpriteManager.get("enemy").src;
-		
-        console.log(this.position);
 
 		this.xOffset = 2;
 		this.yOffset = 3;
 		this.moveQueue  = [];
-        console.log(MapManager);
-		
-        
     }
     Enemy.prototype.pushData = function(enemyInfo) {
         this.delayTurns = [];
         this.pattern = enemyInfo.pattern;
         this.delay = 0;
-        console.log(enemyInfo.startingPos);
         this.position = this.getEnemyPos();
     }
 
@@ -131,11 +124,8 @@ function (
 	 * Return Vector2 position x et y
 	 */
 	Enemy.prototype.getEnemyPos = function () {
-        console.log(this);
 		var currentMap = this.MapManager.currentMap;
-        console.log(currentMap);
 		for (var i = 0; i < currentMap.length; i++) {
-            console.log(this.MapManager.cell.enemy);
 			if (currentMap[i] == this.MapManager.cell.enemy) {
 				return new Vector2((i % Config.mapSizeX), Math.floor(i / Config.mapSizeY));
 			}
@@ -153,12 +143,7 @@ function (
 	 *		  False - Le deplacement n'a pas été effectué (Collision)
 	 */
 	Enemy.prototype.move = function (dir) {
-        console.log(this.position);
 
-			// Si une translation n'est pas en cours
-            console.log(this.getEnemyPos());
-
-			
             var map = this.MapManager.currentMap;
 			
             var xOffset = 0,
@@ -203,8 +188,6 @@ function (
 
 			
             var canMove = true;
-        
-        console.log(this.position);
 			
             var currentCellId = this.MapManager.getCellId(this.position.x, this.position.y);
 			
@@ -231,7 +214,6 @@ function (
 
 				for (var i = 0; i < this.modifier.currentCell.length; i++) {
 					if (this.modifier.currentCell[i][0] == currentCellValue) {
-                        console.log("fdsf");
 						map[currentCellId] = this.modifier.currentCell[i][1];
 					}
 				};
@@ -257,7 +239,6 @@ function (
 	}
     
     Enemy.prototype.getNextMove = function() {
-        console.log((this.MapManager.actionCount - this.delay) % this.pattern.length);
         return this.pattern[(this.MapManager.actionCount - this.delay) % this.pattern.length];
     }
     

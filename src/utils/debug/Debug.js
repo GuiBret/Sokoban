@@ -55,7 +55,6 @@ function (
 					var pos2 = new Vector2(6, 2);
 					var map = MapManager.currentMap;
 					var result = Pathfinding.find(pos1, pos2, map);
-					console.log(result);
 				};
 				this.addWrongPassword = function () {
 					UIManager.addScreen("WrongPassword", true);

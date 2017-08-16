@@ -20,7 +20,6 @@ function (
         "use strict";
 		//Container
         
-        var start = window.performance.now();
 		$("#screenContainer").append("<div id='GameScreen'></div>");
 
 		//Background
@@ -63,7 +62,6 @@ function (
 		$("#hudActionContainer").append("<div id='hudActionTitleText'>" + txt.get("LABEL_HUD_ACTION_TITLE") + "</div>");
 		$("#hudActionContainer").append("<div id='hudActionNumberText'>12</div>");
         
-        console.log(window.performance.now() - start);
 	}
 	return new GameScreen();
 });

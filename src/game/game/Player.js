@@ -277,11 +277,7 @@ function (
                 
                     switch(nextEnemyMove) {
                     case "left":
-                        blocked = (Enemy.position.x == this.position.x - 1 && Enemy.position.y === this.position.y);
-                        console.log(Enemy.position.x);
-                        console.log(this.position.x);
-                        console.log((Enemy.position.x == this.position.x - 1 && Enemy.position.y === this.position.y));
-                        
+                        blocked = (Enemy.position.x == this.position.x - 1 && Enemy.position.y === this.position.y);                  
                         break;
                     case "right":
                         blocked = (Enemy.position.x == this.position.x + 1 && Enemy.position.y == this.position.y);
@@ -292,30 +288,28 @@ function (
                         
                     case "down":
                         blocked = (Enemy.position.y == this.position.y - 1 && Enemy.position.x == this.position.x);
-                        console.log("d");
                         break;
                         
                 };
                 
         
+                    
                     if(y) { // Déplacement de l'ennemi
-                    if(!blocked) {
-                        MapManager.enemyActionHistoryIndexIncrem();
-                        MapManager.addEnemyAction({
+                    
+                        if(!blocked) {
+                       
+                            MapManager.enemyActionHistoryIndexIncrem();
+                            MapManager.addEnemyAction({
                             ref: Enemy,
                             type: "move",
                             param: Enemy.getNextMove()
 				    });
-                        Enemy.move();    
-                    } else {
-                        Enemy.incrementDelay();
-                        console.log("Arrêt");
+                            Enemy.move();    
+                        } else {
+                            Enemy.incrementDelay();
+                        }
+                    
                     }
-                    
-               
-                }
-                    
-             
                 
                 }
 				

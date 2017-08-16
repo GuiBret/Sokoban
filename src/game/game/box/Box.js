@@ -18,8 +18,6 @@ function (
 	Move
 ) {
 	var Box = function (x, y, isOnGoal, MapManager, Player) {
-        var start;
-        start = window.performance.now();
 		Move.addPositionUpdate(Box, Config, MapManager);
 		this.Player = Player;
 		this.MapManager = MapManager;
@@ -48,8 +46,7 @@ function (
 		if (isOnGoal) this.idleSprite = SpriteManager.get("boxOnGoal").src;;
 
 		this.appendBox();
-        
-        console.log(window.performance.now() - start);
+
 	}
 
 

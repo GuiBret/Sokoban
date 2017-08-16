@@ -21,7 +21,6 @@ function (
 	GameStage.prototype.init = function (UIManager) {
         "use strict";
         
-        var start = window.performance.now();
 		$("#screenContainer").append("<div id='GameStage'></div>");
 		$("#screenContainer").css("position","absolute");
 
@@ -133,7 +132,6 @@ function (
 						UIManager.closeScreen("GameStage", false);
 						MapManager.removeMap();
 					}
-					console.log(buttonList[id]);
 					if (buttonList[id] == "UndoBtn") {
 						MapManager.undo();
 					}
@@ -157,7 +155,6 @@ function (
 		};
         
         MapManager.update(); // Appelé pour afficher le bon nombre d'eatPowers
-        console.log(window.performance.now() - start);
 	}
 
 
