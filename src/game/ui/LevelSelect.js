@@ -112,7 +112,7 @@ function (
 
 			$("#btnLevel" + i).hide();
 			$("#btnLevel" + i).show("puff");
-
+            console.log("niveau" + String(i));
 			$("#btnLevel" + i).css("margin-left", (i - 1) % 5 * 100);
 			$("#btnLevel" + i).css("margin-top", Math.floor((i - 1) / 5) * 70);
 			$("#btnLevel" + i).css("background-image", "url(" + SpriteManager.get(btnStatic).src + ")");
@@ -182,8 +182,8 @@ function (
 					if (btnStatic != "btnLock") {
 						$("#blackScreen").hide();
 						UIManager.closeScreen("Menu", true);
-						UIManager.closeScreen("LevelSelect", false);
-						UIManager.addScreen("GameStage", true);
+						UIManager.closeScreen("LevelSelect", true);
+						UIManager.addScreen("GameStage", true, world);
 						MapManager.getMap("level" + world  + "-"+ id);
 					}
 					SoundManager.play(mouseUpSound);

@@ -18,7 +18,8 @@ define([
 	"src/game/game/MapManager",
 	"src/game/game/box/BoxManager",
 	"src/game/game/Pathfinding",
-	"src/game/server/Account"
+	"src/game/server/Account",
+    "src/game/game/Enemy"
 ],
 function (
 	$,
@@ -37,7 +38,8 @@ function (
 	MapManager,
 	BoxManager,
 	Pathfinding,
-	Account
+	Account,
+    Enemy
 ) {
 	var GameManager = function () {
 		
@@ -61,6 +63,7 @@ function (
 		Player.init();
 		Account.init(UIManager);
 		MapManager.init(Player);
+        Enemy.init(MapManager);
 		gameloop();
 	}
 
@@ -72,9 +75,15 @@ function (
         if (UIManager.currentScreen.indexOf("LoadScreen") != -1) {
             LoaderManager.update();
         }
+        if(MapManager.currentWorld == 2) {
+            Enemy.update();    
+        }
+        
 		GamePad.update();
 		AnimationManager.update();
 		Player.update();
+        
+        
 		BoxManager.update();
 	}
 

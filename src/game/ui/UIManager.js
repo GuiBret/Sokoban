@@ -50,15 +50,21 @@ function (
 	 * Ajoute un nouveau contenu d'écran dans le gameContainer
 	 */
 	UIManager.prototype.addScreen = function (name, fade, world) {
-        $("head").append(`<link rel="stylesheet" type="text/css" href="css/${name}.css" />`);
+        $("head").append(`<link rel="stylesheet" type="text/css" href="css/${name}.css?v=1.1" />`);
         
 		if (typeof fade == "undefined") fade = false;
         
         var $this = this;
         setTimeout(function() {
             if(name === "LevelSelect") {
+                
                 eval(name).init($this, world);    
             } else {
+                console.log(world);
+                if(name === "GameStage" && world == 2) {
+                    $("head").append(`<link rel="stylesheet" type="text/css" href="css/gameStage_dark.css?v=1.1" />`);
+                    
+                }
                 eval(name).init($this);
             }
             
@@ -90,7 +96,7 @@ function (
             
 			if (fade) {
 				$("#" + name).fadeOut(Config.changeScreenFadeDelay, function () {
-                    $(`link[rel=stylesheet][href="css/${name}.css"]`).remove();
+                    $(`link[rel=stylesheet][href="css/${name}.css?v=1.1"]`).remove();
 					$("#" + name).remove();
 				})
 			} else {

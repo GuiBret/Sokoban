@@ -8,13 +8,12 @@
 	top: -16px;
 }
 
-#player {
+#player, #enemy {
 	position: absolute;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	z-index: 3;
 }
-
 .tile {
 	position: absolute;
 	background-repeat: no-repeat;

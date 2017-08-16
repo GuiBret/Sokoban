@@ -23,6 +23,11 @@ function (
 			index: -1,
 			list: []
 		};
+        
+        obj.enemyActionHistory = {
+            index: -1,
+            list: []
+        }
 
 		// Opposé des directions
 		obj.moveReverse = {
@@ -48,9 +53,25 @@ function (
 					$("#tile" + currAction.param).css("background-image", "url(" + SpriteManager.get("wall").src + ")");
 					this.Player.eatPower++;
 				}
+                
+                
 			};
+            
+            for (var i = this.enemyActionHistory.list[index].length - 1; i >= 0; i--) {
+				currAction = this.enemyActionHistory.list[index][i];
+                console.log(currAction);
+				if (currAction.type == "move") {
+					direction = this.moveReverse[currAction.param]
+                    console.log(direction);
+					this.Enemy.move(direction, false);
+				}
+                
+                
+			};
+            
 			this.actionDecrement();
 			this.actionHistoryIndexDecrem();
+            this.enemyActionHistoryIndexDecrem();
 		}
 
 		obj.redo = function () {
@@ -70,6 +91,7 @@ function (
 			};
 			this.actionIncrement();
 			this.actionHistoryIndexIncrem();
+            this.enemyActionHistoryIndexIncrem();
 		}
 
 		/**
@@ -82,10 +104,19 @@ function (
 		 */
 		obj.addAction = function (action) {
 			var i = this.actionHistory.index;
+            console.log(typeof this.actionHistory.list[i]);
 			if (typeof this.actionHistory.list[i] == "undefined") this.actionHistory.list[i] = [];
 			this.actionHistory.list[i].push(action);
 			this.actionHistory.list.splice(i + 1);
 		}
+        
+        obj.addEnemyAction = function(action) {
+            var i = this.enemyActionHistory.index;
+            console.log(typeof this.enemyActionHistory.list[i]);
+			if (typeof this.enemyActionHistory.list[i] == "undefined") this.enemyActionHistory.list[i] = [];
+			this.enemyActionHistory.list[i].push(action);
+			this.enemyActionHistory.list.splice(i + 1);
+        }
 
 		/**
 		 * Increment l'index dans la chronologie
@@ -93,13 +124,21 @@ function (
 		obj.actionHistoryIndexIncrem = function () {
 			this.actionHistory.index++;
 		}
+        
+        obj.enemyActionHistoryIndexIncrem = function () {
+			this.enemyActionHistory.index++;
+		}
 
 		/**
 		 * Decrement l'index dans la chronologie
 		 */
-		obj.actionHistoryIndexDecrem = function () {
+        obj.actionHistoryIndexDecrem = function () {
 			this.actionHistory.index--;
 		}
+		obj.enemyActionHistoryIndexDecrem = function () {
+			this.enemyActionHistory.index--;
+		}
+        
 
 		obj.resetActionHistory = function () {
 			this.actionHistory = {
@@ -107,6 +146,13 @@ function (
 				list: []
 			};
 		}
+        
+        obj.resetEnemyActionHistory = function() {
+            this.enemyActionHistory = {
+				index: -1,
+				list: []
+			};
+        }
 	}
 
 

@@ -127,6 +127,9 @@ function (
 					$("#menuContainer #" + buttonList[id]).css("background-image", "url(" + SpriteManager.get(buttonList[id] + "Static").src + ")");
 					$("#menuContainer #" + buttonList[id]).css("padding-top", 0);
 					if (buttonList[id] == "MenuBtn") {
+                        if(MapManager.currentWorld == 2) {
+                            $(`link[rel=stylesheet][href="css/gameStage_dark.css?v=1.1"]`).remove(); // Pour enlever le fichier css spécifique au monde 2
+                        }
 						UIManager.closeScreen("GameStage", false);
 						MapManager.removeMap();
 					}
@@ -138,7 +141,7 @@ function (
 						MapManager.redo();
 					}
 					if (buttonList[id] == "ResetBtn") {
-						MapManager.removeMap('level' + MapManager.levelNum);
+						MapManager.removeMap('level' + MapManager.currentWorld +"-"+ MapManager.levelNum);
 					}
 					switch(buttonList[id]){
 						case "MenuBtn":

@@ -12,10 +12,12 @@ define([
 	"src/game/game/component/Undoredo",
 	"src/game/game/box/Box",
 	"src/game/game/box/BoxManager",
-	"src/utils/localization/txt"
+	"src/utils/localization/txt",
+    "src/game/game/Enemy"
 
 ],
 function (
+       
 	$,
 	UIManager,
 	Config,
@@ -26,7 +28,8 @@ function (
 	Undoredo,
 	Box,
 	BoxManager,
-	txt
+	txt,
+    Enemy
 ) {
 	var MapManager = function () {
 		this.currentMap = [];
@@ -62,7 +65,8 @@ function (
 			box: 21,
 			boxOnGoal: 22,
 			player: 23,
-			playerOnGoal: 24
+			playerOnGoal: 24,
+            enemy:25
 		}
 
 		this.floorColor = [
@@ -78,8 +82,12 @@ function (
 
 	MapManager.prototype.init = function (Player) {
         "use strict";
+        console.log("TROLL");
+        console.log(Enemy);
 		this.Player = Player;
+        this.Enemy = Enemy;
 		Undoredo.add(MapManager);
+        
 	}
 
 
@@ -104,6 +112,7 @@ function (
 								  .css("background-image", "url(" + SpriteManager.get("hudSpecialLogo").src + ")");
 			}
 		};
+        
 
 		if ($("#mapContainer").length > 0 && this.currentMap.length > 0) {
 			var won = true;
@@ -112,17 +121,18 @@ function (
 					var won = false;
 				}
 			};
+            console.log('Fini ou pas')
 			if (won) {
 				var score;
 				score = this.actionCount > this.levelPar ? 1 : 2;
 				Account.addScore(this.levelNum, score);
 				
 				//alert("Bravo, tu as gagné.\nTon nombre d'action :" + this.actionCount + "\nLe par du niveau :" + this.levelPar + "\nTon score : " + score + "\nDev tip: Message temporaire");
-				if (this.levelNum + 1 == 16) {
+				if ((this.currentWorld == 1 &&this.levelNum + 1 == 16) || this.currentWorld == 2 && this.levelNum + 1 == 4)  {
 				//	alert("Bravo, tu as fini le jeu");
 					
 				} else {
-					this.removeMap('level' +this.currentWorld + "_" + (this.levelNum + 1));
+					this.removeMap('level' +this.currentWorld + "-" + (this.levelNum + 1));
 				}
 			}
 		}
@@ -134,11 +144,14 @@ function (
 	 */
 	MapManager.prototype.loadMap = function () {
         'use strict';
+    
+        console.log(this.data);
         var start = window.performance.now();
-        console.log("Meug");
+
 		this.resetActionHistory();
 		this.currentMap = [];
-
+        this.enemies = [];
+        
         
 		this.actionCount = 0; // Nombre d'action effectué par le joueur (deplacement, undo, redo)
 
@@ -181,8 +194,11 @@ function (
 				var clickY = Math.floor(event.data.i / Config.mapSizeY);
 				var nextDir = event.data.Player.XYToDir(clickX, clickY);
 				var moved = false;
+                console.log(nextDir);
 				if (nextDir != false) {
+                    
 					moved = event.data.Player.move(nextDir);
+                    console.log(moved);
 				} else {
 					moved = event.data.Player.move(clickX, clickY);
 				}
@@ -239,6 +255,7 @@ function (
 					imageName = "goal";
 					break;
 				case this.cell.player:
+                case this.cell.enemy:
 					imageName = floorImageName;
 					break;
 			}
@@ -250,6 +267,15 @@ function (
 								.css("width", 141 * Math.max(Config.mapWidth, Config.mapHeight) / 110)
 								.css("height", 87 * Math.max(Config.mapWidth, Config.mapHeight) / 110);
 			}
+            
+            if(this.map.layers[0].data[i] == this.cell.enemy) {
+                console.log("Coucou");
+                $("#mapContainer").append("<div id='enemy'></div>")
+					$("#enemy").css("background-image", "url(" + SpriteManager.get("enemy").src + ")")
+								.css("width", 55)
+								.css("height", 55);
+                
+            }
 
 			$('#mapContainer').append('<div id="tile' + i + '" class="' + imageName + ' tile"></div>');
 			$('#tile' + i).css("background-image", "url(" + SpriteManager.get(imageName).src + ")");
@@ -260,8 +286,8 @@ function (
 						  .data("floorColor", floorImageName);
             
             
-
-			$('#tile' + i).mouseup({MapManager:this, i:i, Player:this.Player}, mouseUpEvent);
+           $('#tile' + i).mouseup({MapManager:this, i:i, Player:this.Player}, mouseUpEvent);
+			
 
 			$('#tile' + i).hide();
 			setTimeout((function (id) {
@@ -272,9 +298,16 @@ function (
 		}
         
         
-        $("#hudActionNumberText").text(0); // Reset du nombre d'actions
         
+        
+        $("#hudActionNumberText").text(0); // Reset du nombre d'actions
         console.log(window.performance.now() - start);
+        console.log(this.map);
+        if(this.currentWorld == 2) {
+            Enemy.pushData(this.map.enemies);    
+        }
+        
+
 	}
 
 
@@ -325,7 +358,7 @@ function (
 			return function () {
 				if (mapName != false) {
 					$("#mapContainer").remove();
-					MapManager.loadMap(mapName);
+					MapManager.getMap(mapName);
 				}
 			}
 		})(this, mapName), Config.fadeInMax + 400 * 2);
@@ -357,23 +390,23 @@ function (
     }
     
     MapManager.prototype.getMap = function(mapName) {
-        console.log(mapName);
+        "use strict";
+
         this.currentWorld = /level(\d)-\w+/.exec(mapName)[1];
-        
         this.levelNum = parseInt(/level\d-(\d+)/.exec(mapName)[1]);
         
-        console.log(mapName);
         var self = this;
-        console.log("Meuh");
-        $.ajax({
-            url:"assets/map/"+ mapName +".json",
-            success : function(data, $this) {
-                console.log($this);
-                console.log(this.data);
+
+        
+        $.get("assets/map/" +mapName +".json?v=1.1"
+              , function(data) {
                 this.map = data;
                 this.loadMap();
-            }.bind(this)
+        }.bind(this)).fail(function(e,f) {
+        }).always(function() {
+        
         });
+        
     }
 	
 

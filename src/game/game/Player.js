@@ -12,7 +12,8 @@ define([
 	"src/game/game/box/BoxManager",
 	"src/game/controller/Controller",
 	"src/game/game/Pathfinding",
-	"src/game/game/component/Move"
+	"src/game/game/component/Move",
+    "src/game/game/Enemy"
 ],
 function (
 	$,
@@ -25,7 +26,8 @@ function (
 	BoxManager,
 	Controller,
 	Pathfinding,
-	Move
+	Move,
+    Enemy
 ) {
 	var Player = function () {
 		
@@ -253,14 +255,70 @@ function (
 				SoundManager.play("playerMove");
 
 				$("#player").css("background-image", "url(" + SpriteManager.get("playerMove").src + ")");
-
-				if (y) {
-					MapManager.addAction({
-						ref: this,
-						type: "move",
-						param: dir
-					});
-				}
+                if(MapManager.currentWorld == 2 ) {
+                    if (y) {
+					   MapManager.addAction({
+						
+                           ref: this,
+					
+                           type: "move",
+						
+                           param: dir
+				
+                       });
+				
+                    }
+        
+                    var nextEnemyMove = Enemy.pattern[MapManager.actionCount + Enemy.delay % Enemy.pattern.length],
+                    
+                        offset = -1,
+                    
+                        blocked = false;
+                
+                    switch(nextEnemyMove) {
+                    case "left":
+                        blocked = (Enemy.position.x == this.position.x - 1 && Enemy.position.y === this.position.y);
+                        console.log(Enemy.position.x);
+                        console.log(this.position.x);
+                        console.log((Enemy.position.x == this.position.x - 1 && Enemy.position.y === this.position.y));
+                        
+                        break;
+                    case "right":
+                        blocked = (Enemy.position.x == this.position.x + 1 && Enemy.position.y == this.position.y);
+                        break;
+                    case "top":
+                        blocked = (Enemy.position.y == this.position.y + 1 && Enemy.position.x == this.position.x);
+                        break;
+                        
+                    case "down":
+                        blocked = (Enemy.position.y == this.position.y - 1 && Enemy.position.x == this.position.x);
+                        console.log("d");
+                        break;
+                        
+                };
+                
+        
+                    if(y) { // Déplacement de l'ennemi
+                    if(!blocked) {
+                        MapManager.enemyActionHistoryIndexIncrem();
+                        MapManager.addEnemyAction({
+                            ref: Enemy,
+                            type: "move",
+                            param: Enemy.getNextMove()
+				    });
+                        Enemy.move();    
+                    } else {
+                        Enemy.incrementDelay();
+                        console.log("Arrêt");
+                    }
+                    
+               
+                }
+                    
+             
+                
+                }
+				
                 
                 MapManager.update();
 				return true;
@@ -269,12 +327,15 @@ function (
 		} else {
 			var destinationPos = new Vector2(dir, y);
 			this.moveQueue = Pathfinding.find(this.position, destinationPos, MapManager.currentMap);
+            
 			if (this.moveQueue == false) {
 				return false;
 			}
 			this.moveQueue.shift();
 			return true;
 		}
+        
+        
 	}
 
 

@@ -70,10 +70,9 @@ function (
 		/**
 		 * Bouton de selection de niveau
 		 */
-		var isUnlocked = false,
-            className = false,
+		var className = false,
             starName = null,
-            className = "btnLevel",	
+            className = "btnWorld",	
             btnStatic = "btnLevelStatic",
             btnSurvol = "btnLevelSurvol",
             btnPress = "btnLevelPress",
@@ -83,33 +82,23 @@ function (
             starEffectMax = 10000;
 
 		for (var i = 1; i <= 2; i++) {
-			isUnlocked = Account.progress.level[i - 1].unlocked;
-			if (isUnlocked) {
-				
-			} else {
-				className = "btnLock";
-				btnStatic = "btnLock";
-				btnSurvol = "btnLock";
-				btnPress = "btnLock";
-				mouseUpSound = "buttonForbidden";
-			}
 
             
             var worldList = $("#WorldList");
-            $("#WorldList").append("<div id='btnLevel" + i + "' class='btn " + className + "'><span>" + i + "</span></div>");
+            $("#WorldList").append("<div id='btnWorld" + i + "' class='btn " + className + "'><span>" + i + "</span></div>");
 
-			$("#btnLevel" + i).hide();
-			$("#btnLevel" + i).show("puff");
+			$("#btnWorld" + i).hide();
+			$("#btnWorld" + i).show("puff");
 
-			$("#btnLevel" + i).css("margin-left", (i - 1) % 5 * 100);
-			$("#btnLevel" + i).css("margin-top", Math.floor((i - 1) / 5) * 70);
-			$("#btnLevel" + i).css("background-image", "url(" + SpriteManager.get(btnStatic).src + ")");
+			$("#btnWorld" + i).css("margin-left", (i - 1) % 5 * 100);
+			$("#btnWorld" + i).css("margin-top", Math.floor((i - 1) / 5) * 70);
+			$("#btnWorld" + i).css("background-image", "url(" + SpriteManager.get(btnStatic).src + ")");
 
 			// Star append
 			
 
 			// Hover
-			$( "#btnLevel" + i).hover(function() {
+			$( "#btnWorld" + i).hover(function() {
                     
                     
                 if($( this ).find("span").html() === "2") {
@@ -129,16 +118,13 @@ function (
             );
 
 			// Active
-			$( "#btnLevel" + i).mousedown((function(id, btnPress, isUnlocked) {
+			$( "#btnWorld" + i).mousedown((function(id, btnPress) {
 				return function () {
 					$(this).css("background-image", "url(" + SpriteManager.get(btnPress).src + ")")
-					if (isUnlocked) {
-						$(this).css("padding-top", 5);
-					}
 				}
-			})(i, btnPress, isUnlocked));
+			})(i, btnPress));
 
-			$("#btnLevel" + i).mouseup((function(id, btnStatic, mouseUpSound) {
+			$("#btnWorld" + i).mouseup((function(id, btnStatic, mouseUpSound) {
 				return function () {
                     var world = $(this).find("span").html();
                     $(this).css("background-image", "url(" + SpriteManager.get(btnStatic).src + ")")
@@ -146,7 +132,7 @@ function (
 
 					if (btnStatic != "btnLock") {
 						$("#blackScreen").hide();
-						UIManager.closeScreen("WorldSelect", false);
+						UIManager.closeScreen("WorldSelect", true);
 						UIManager.addScreen("LevelSelect", true, world);
 					}
 					SoundManager.play(mouseUpSound);

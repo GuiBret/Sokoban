@@ -330,7 +330,11 @@ function (
 			{
 				name: "OptionsBtnStatic",
 				path: this.baseFolder + "sprite/game/btnSettingsStatic.png"
-			}
+			},
+            {
+                name:"enemy",
+                path: this.baseFolder + "sprite/game/monster.png"
+            }
 		]
 
 		this.totalToLoad = this.list.length;

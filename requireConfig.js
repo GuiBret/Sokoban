@@ -7,7 +7,10 @@ requirejs.config ({
 		"underscore" : "libs/underscore-min",
 		"pathfinding" : "libs/pathfinding-browser.min",
 		"stats" : "libs/debug/stats.min",
-		"datgui" : "libs/debug/dat.gui.min"
+		"datgui" : "libs/debug/dat.gui.min",
+        'jasmine': 'lib/jasmine-2.7.0/jasmine',
+        'jasmine-html': 'lib/jasmine-2.7.0/jasmine-html',
+        'jasmine-boot': 'lib/jasmine-2.7.0/boot'
 	},
 	shim : {
 		"jquery-ui" : {
@@ -28,7 +31,13 @@ requirejs.config ({
 		},
 		"datgui" : {
 			exports : "dat.gui"
-		}
+		},
+        'jasmine-html': {
+            deps : ['jasmine']
+        },
+        'jasmine-boot': {
+            deps : ['jasmine', 'jasmine-html']
+        }
 	},
 	urlArgs : "d=" + Date.now()
 });
