@@ -60,7 +60,6 @@ function (
                 
                 eval(name).init($this, world);    
             } else {
-                console.log(world);
                 if(name === "GameStage" && world == 2) {
                     $("head").append(`<link rel="stylesheet" type="text/css" href="css/gameStage_dark.css?v=1.1" />`);
                     

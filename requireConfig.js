@@ -1,16 +1,17 @@
 requirejs.config ({
 	baseUrl : "",
 	paths : {
+        'jasmine': 'lib/jasmine-2.7.0/jasmine',
+        'jasmine-html': 'lib/jasmine-2.7.0/jasmine-html',
+        'jasmine-boot': 'lib/jasmine-2.7.0/boot',
 		"jquery" : "libs/jquery/jquery.min",
 		"jquery-ui" : "libs/jquery-ui/jquery-ui.min",
 		"howler" : "libs/howler.min",
 		"underscore" : "libs/underscore-min",
 		"pathfinding" : "libs/pathfinding-browser.min",
 		"stats" : "libs/debug/stats.min",
-		"datgui" : "libs/debug/dat.gui.min",
-        'jasmine': 'lib/jasmine-2.7.0/jasmine',
-        'jasmine-html': 'lib/jasmine-2.7.0/jasmine-html',
-        'jasmine-boot': 'lib/jasmine-2.7.0/boot'
+		"datgui" : "libs/debug/dat.gui.min"
+        
 	},
 	shim : {
 		"jquery-ui" : {
@@ -40,6 +41,7 @@ requirejs.config ({
         }
 	},
 	urlArgs : "d=" + Date.now()
+    
 });
 
 

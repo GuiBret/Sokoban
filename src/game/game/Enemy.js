@@ -43,6 +43,7 @@ function (
         
         
         this.currentMap = this.MapManager.currentMap;
+        //this.position = this.getEnemyPos();
         
         
         this.translateOffset = new Vector2(0, 0);
@@ -51,6 +52,7 @@ function (
 		this.xOffset = 2;
 		this.yOffset = 3;
 		this.moveQueue  = [];
+        this.position = this.getEnemyPos();
     }
     Enemy.prototype.pushData = function(enemyInfo) {
         this.delayTurns = [];
@@ -63,18 +65,23 @@ function (
 
 
 	Enemy.prototype.update = function () {
-	    this.checkMovingInput();
+        if (this.position.x == -1 ||
+			this.position.y == -1) {
+			this.position = this.getEnemyPos();
+		}
+		if (this.MapManager.currentMap.length == 0) {
+			this.position.x = -1;
+			this.position.y = -1;
+		}
 		this.positionUpdate();
 		this.fluidMovementUpdate();
 
 	}
-
-
-	/**
-	 * Fait bouger le joueur si une touche directionnel est appué
-	 */
-	Enemy.prototype.checkMovingInput = function () {
+    
+    Enemy.prototype.updateMap = function() {
+        this.currentMap = this.MapManager.currentMap;
     }
+
 
 
 	/**

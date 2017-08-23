@@ -37,6 +37,10 @@ function (
 		$("#screenContainer #LevelSelect").css("background-image", "url(" + SpriteManager.get("popUp").src + ")");
         
 		$("#LevelSelect").append("<div class='buttonClose'>" + txt.get("LABEL_POPUP_CLOSEBTN") + "</div>");
+        
+        if(world == 2) {
+            $("#LevelSelect").css("filter", "hue-rotate(-115deg)");  
+        }
 		$("#LevelSelect .buttonClose").css("background-image", "url(" + SpriteManager.get("buttonLoginStatic").src + ")");
 
 		/**
@@ -64,6 +68,7 @@ function (
 		});
 
 		$("#LevelSelect").append("<div id='descTitleLevelSelect'>" + txt.get("LABEL_POPUP_LEVELSELECT_DESCTITLE") + "</div>");
+        
 
 		/**
 		 * Bouton de selection de niveau
@@ -80,13 +85,11 @@ function (
             starEffectMax = 10000,
             limit;
         
-        console.log(world);
         if(world == 1) {
             limit = 16;
         } else {
             limit = 4
         }
-        console.log(limit);
 		for (var i = 1; i < limit; i++) {
 			isUnlocked = Account.progress.level[i - 1].unlocked;
 			if (isUnlocked) {
@@ -112,7 +115,6 @@ function (
 
 			$("#btnLevel" + i).hide();
 			$("#btnLevel" + i).show("puff");
-            console.log("niveau" + String(i));
 			$("#btnLevel" + i).css("margin-left", (i - 1) % 5 * 100);
 			$("#btnLevel" + i).css("margin-top", Math.floor((i - 1) / 5) * 70);
 			$("#btnLevel" + i).css("background-image", "url(" + SpriteManager.get(btnStatic).src + ")");

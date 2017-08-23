@@ -108,7 +108,7 @@ function (
 
 
 	/**
-	 * Transforme une direction x, y en direction sous forme de string (Left, Right, up, down)
+	 * Transforme une position x, y en direction sous forme de string (Left, Right, up, down)
 	 */
 	Player.prototype.XYToDir = function (x, y) {
 		var xOffset = x - this.position.x;
@@ -167,6 +167,8 @@ function (
 				var map = MapManager.currentMap;
 				var xOffset = 0;
 				var yOffset = 0;
+                
+                
 
 				switch(dir){
 					case "left":
@@ -255,62 +257,62 @@ function (
 				SoundManager.play("playerMove");
 
 				$("#player").css("background-image", "url(" + SpriteManager.get("playerMove").src + ")");
-                if(MapManager.currentWorld == 2 ) {
-                    if (y) {
+                
+                
+                if (y) {
 					   MapManager.addAction({
 						
                            ref: this,
-					
                            type: "move",
-						
                            param: dir
 				
                        });
 				
                     }
+                
+                
+                if(MapManager.currentWorld == 2 ) {
+                    
         
                     var nextEnemyMove = Enemy.pattern[MapManager.actionCount + Enemy.delay % Enemy.pattern.length],
-                    
                         offset = -1,
-                    
                         blocked = false;
-                
+                    
                     switch(nextEnemyMove) {
-                    case "left":
-                        blocked = (Enemy.position.x == this.position.x - 1 && Enemy.position.y === this.position.y);                  
+                    case "left":            
+                        blocked = (MapManager.getCellId(Enemy.position.x, Enemy.position.y) - 1 == MapManager.getCellId(this.position.x, this.position.y)) && Enemy.position.y == this.position.y
                         break;
                     case "right":
-                        blocked = (Enemy.position.x == this.position.x + 1 && Enemy.position.y == this.position.y);
+                        blocked = (MapManager.getCellId(Enemy.position.x, Enemy.position.y) + 1 == MapManager.getCellId(this.position.x, this.position.y)) && Enemy.position.y == this.position.y;
                         break;
-                    case "top":
-                        blocked = (Enemy.position.y == this.position.y + 1 && Enemy.position.x == this.position.x);
+                    case "up":
+                        blocked = (MapManager.getCellId(Enemy.position.x, Enemy.position.y) - 11 == MapManager.getCellId(this.position.x, this.position.y)) && Enemy.position.x == this.position.x;
                         break;
                         
                     case "down":
-                        blocked = (Enemy.position.y == this.position.y - 1 && Enemy.position.x == this.position.x);
+                        blocked = (MapManager.getCellId(Enemy.position.x, Enemy.position.y) + 11 == MapManager.getCellId(this.position.x, this.position.y)) && Enemy.position.x == this.position.x;
                         break;
                         
                 };
                 
-        
-                    
                     if(y) { // Déplacement de l'ennemi
-                    
+                        MapManager.enemyActionHistoryIndexIncrem();
                         if(!blocked) {
-                       
-                            MapManager.enemyActionHistoryIndexIncrem();
                             MapManager.addEnemyAction({
                             ref: Enemy,
                             type: "move",
                             param: Enemy.getNextMove()
 				    });
-                            Enemy.move();    
+                            Enemy.move();
                         } else {
                             Enemy.incrementDelay();
-                        }
-                    
-                    }
-                
+                            MapManager.addEnemyAction({
+                                ref:Enemy,
+                                type:"wait",
+                                param: ""
+                            });
+                        }                     
+                    }         
                 }
 				
                 

@@ -56,15 +56,17 @@ function (
                 
                 
 			};
+            if(this.currentWorld == 2) {
+                for (var i = this.enemyActionHistory.list[index].length - 1; i >= 0; i--) {
+				
+                    currAction = this.enemyActionHistory.list[index][i];
+			
+                    if (currAction.type == "move") {
+					   direction = this.moveReverse[currAction.param]
+                        this.Enemy.move(direction, false);
+				    }    
+            }
             
-            for (var i = this.enemyActionHistory.list[index].length - 1; i >= 0; i--) {
-				currAction = this.enemyActionHistory.list[index][i];
-                console.log(currAction);
-				if (currAction.type == "move") {
-					direction = this.moveReverse[currAction.param]
-                    console.log(direction);
-					this.Enemy.move(direction, false);
-				}
                 
                 
 			};
@@ -89,6 +91,18 @@ function (
 					this.Player.eatPower--;
 				}
 			};
+            
+            if(this.currentWorld == 2) {
+                for (var i = this.enemyActionHistory.list[index].length - 1; i >= 0; i--) {
+				
+                    currAction = this.enemyActionHistory.list[index][i];
+			
+                    if (currAction.type == "move") {
+					   direction = this.moveReverse[currAction.param]
+                        this.Enemy.move(currAction.param, false);
+				    }    
+                }
+            }
 			this.actionIncrement();
 			this.actionHistoryIndexIncrem();
             this.enemyActionHistoryIndexIncrem();
@@ -104,7 +118,6 @@ function (
 		 */
 		obj.addAction = function (action) {
 			var i = this.actionHistory.index;
-            console.log(typeof this.actionHistory.list[i]);
 			if (typeof this.actionHistory.list[i] == "undefined") this.actionHistory.list[i] = [];
 			this.actionHistory.list[i].push(action);
 			this.actionHistory.list.splice(i + 1);
@@ -112,7 +125,6 @@ function (
         
         obj.addEnemyAction = function(action) {
             var i = this.enemyActionHistory.index;
-            console.log(typeof this.enemyActionHistory.list[i]);
 			if (typeof this.enemyActionHistory.list[i] == "undefined") this.enemyActionHistory.list[i] = [];
 			this.enemyActionHistory.list[i].push(action);
 			this.enemyActionHistory.list.splice(i + 1);

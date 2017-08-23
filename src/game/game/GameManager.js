@@ -75,13 +75,15 @@ function (
         if (UIManager.currentScreen.indexOf("LoadScreen") != -1) {
             LoaderManager.update();
         }
-        if(MapManager.currentWorld == 2) {
-            Enemy.update();    
-        }
+        
         
 		GamePad.update();
 		AnimationManager.update();
 		Player.update();
+        
+        if(MapManager.currentWorld == 2) {
+            Enemy.update();    
+        }
         
         
 		BoxManager.update();

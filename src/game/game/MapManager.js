@@ -85,7 +85,7 @@ function (
         
 		this.Player = Player;
         this.Enemy = Enemy;
-        
+        Undoredo.add(MapManager);   
 	}
 
 
@@ -190,7 +190,6 @@ function (
 				if (nextDir != false) {
                     
 					moved = event.data.Player.move(nextDir);
-                    console.log(moved);
 				} else {
 					moved = event.data.Player.move(clickX, clickY);
 				}
@@ -214,7 +213,7 @@ function (
 				this.map.layers[0].data[i] <= this.cell.floorPurple) {
 				this.map.layers[0].data[i] == this.cell.floor;
 			}
-
+            
 			this.currentMap.push(this.map.layers[0].data[i]);
 
 			for (cellName in this.cell){
@@ -261,7 +260,6 @@ function (
 			}
             
             if(this.map.layers[0].data[i] == this.cell.enemy) {
-                console.log("Coucou");
                 $("#mapContainer").append("<div id='enemy'></div>")
 					$("#enemy").css("background-image", "url(" + SpriteManager.get("enemy").src + ")")
 								.css("width", 55)
@@ -294,8 +292,6 @@ function (
         if(this.currentWorld == 2) {
             Enemy.pushData(this.map.enemies);    
         }
-        
-
 	}
 
 

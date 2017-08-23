@@ -34,6 +34,7 @@ function (
 	txt.prototype.get = function (labelName) {
 		return $(this.xliffData[Config.language]).find("#" + labelName + " target").html();
 	}
+    
 
 
 	return new txt();
