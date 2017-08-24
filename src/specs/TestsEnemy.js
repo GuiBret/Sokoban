@@ -58,7 +58,7 @@ var testsEnemy = function(Enemy, MapManager, Player, Vector2) {
                         Player.move("up");
                         MapManager.actionIncrement();
                         
-                        expect(Enemy.position).toEqual(new Vector2(3,6));
+                        expect(Enemy.getEnemyPos()).toEqual(new Vector2(3,6));
                         expect(Enemy.delay).toEqual(1);
                     })
                     

@@ -29,30 +29,13 @@ var testsMapManager = function(MapManager) {
                 
             });
             
-            describe("MapManager.getCellValue", function() {
+            describe("MapManager.getCellId", function() {
                 it("should return 35 when trying to get the id of the cell in coordinates [2,3]", function() {
-                    expect(MapManager.getCellId(0,0)).toBe(0);    
+                    expect(MapManager.getCellId(3,3)).toBe(36);    
                 });
                 
                 
-            });
-            
-            describe("MapManager.removeMap", function() {
-                //spyOn(MapManager, "getMap");
-                it("should call getMap", function(done) {
-                    
-                    MapManager.removeMap("level1-2");
-                    setTimeout(function() {
-                        expect(MapManager.getMap).toHaveBeenCalled();
-                        done();
-                    });
-                    
-                })
-            })
-            
-            
-
-                
+            });    
         });
         
     };

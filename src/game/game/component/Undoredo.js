@@ -42,8 +42,24 @@ function (
 			var index = this.actionHistory.index;
 			var currAction;
 			var direction;
+            
+            if(this.currentWorld == 2) {
+                for (var i = this.enemyActionHistory.list[index].length - 1; i >= 0; i--) {
+				
+                    currAction = this.enemyActionHistory.list[index][i];
+                    
+                    console.log(currAction.param);
+			
+                    if (currAction.type == "move") {
+					   direction = this.moveReverse[currAction.param]
+                        this.Enemy.move(direction, false);
+				    }    
+            }
+            
+            
 			for (var i = this.actionHistory.list[index].length - 1; i >= 0; i--) {
 				currAction = this.actionHistory.list[index][i];
+                console.log(currAction.param);
 				if (currAction.type == "move") {
 					direction = this.moveReverse[currAction.param]
 					currAction.ref.move(direction, false);
@@ -56,16 +72,7 @@ function (
                 
                 
 			};
-            if(this.currentWorld == 2) {
-                for (var i = this.enemyActionHistory.list[index].length - 1; i >= 0; i--) {
-				
-                    currAction = this.enemyActionHistory.list[index][i];
-			
-                    if (currAction.type == "move") {
-					   direction = this.moveReverse[currAction.param]
-                        this.Enemy.move(direction, false);
-				    }    
-            }
+            
             
                 
                 

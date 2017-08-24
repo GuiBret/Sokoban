@@ -298,6 +298,7 @@ function (
                     if(y) { // Déplacement de l'ennemi
                         MapManager.enemyActionHistoryIndexIncrem();
                         if(!blocked) {
+                            console.log("Meuh");
                             MapManager.addEnemyAction({
                             ref: Enemy,
                             type: "move",
@@ -306,6 +307,7 @@ function (
                             Enemy.move();
                         } else {
                             Enemy.incrementDelay();
+                            
                             MapManager.addEnemyAction({
                                 ref:Enemy,
                                 type:"wait",
